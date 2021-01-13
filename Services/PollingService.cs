@@ -3,13 +3,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace workertest
 {
     public abstract class PollingService<T> : BackgroundService
     {
-        protected PollingService(IPollingConfig<T> pollingConfig)
+        protected ILogger<T> Logger { get; init; }
+
+        protected PollingService(IPollingConfig<T> pollingConfig, ILogger<T> logger)
         {
+            Logger = logger;
             this.PollingDelay = pollingConfig.PollingDelay;
         }
 

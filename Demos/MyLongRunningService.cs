@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -8,11 +6,11 @@ using Microsoft.Extensions.Logging;
 
 namespace workertest
 {
-    public class Worker : BackgroundService
+    public class MyLongRunningService : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<MyLongRunningService> _logger;
 
-        public Worker(ILogger<Worker> logger)
+        public MyLongRunningService(ILogger<MyLongRunningService> logger)
         {
             _logger = logger;
         }
@@ -21,7 +19,7 @@ namespace workertest
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                _logger.LogInformation("MyLongRunningService running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }
         }

@@ -24,7 +24,7 @@ namespace workertest
                 {
                     services
                         .AddScoped<IMyScopedService, MyScopedService>()
-                        .AddHostedService<Worker>()
+                        .AddHostedService<MyLongRunningService>()
                         .AddPollingService<MyPollingService>(c=>
                         {
                             c.PollingDelay = 1000;

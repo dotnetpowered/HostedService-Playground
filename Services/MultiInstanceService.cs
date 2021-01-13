@@ -4,15 +4,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace workertest
 {
     public class MultiInstanceService<T> : BackgroundService where T : IHostedService
     {
+        protected ILogger<T> Logger { get; init; }
         private readonly IServiceProvider _provider;
 
-        public MultiInstanceService(IMultiInstanceConfig<T> config, IServiceProvider provider)
+        public MultiInstanceService(IMultiInstanceConfig<T> config, ILogger<T> logger, IServiceProvider provider)
         {
+            Logger = logger;
             this._provider = provider;
             this.Instances = config.Instances;
         }

@@ -10,11 +10,13 @@ namespace workertest
 {
     public abstract class CronService<T> : BackgroundService
     {
+        protected ILogger<T> Logger { get; init; }
         private readonly IScheduleConfig<T> _config;
         private readonly CronExpression _cronExpression;
 
-        public CronService(IScheduleConfig<T> config)
+        public CronService(IScheduleConfig<T> config, ILogger<T> logger)
         {
+            Logger = logger;
             _config = config;
             _cronExpression = CronExpression.Parse(config.CronExpression);
         }
@@ -34,13 +36,13 @@ namespace workertest
                     {
                         await Task.Delay(delay, stoppingToken);
                         if (!stoppingToken.IsCancellationRequested)
-                            await ExecuteSchedule(stoppingToken);
+                            await ExecuteScheduleAsync(stoppingToken);
                     }
                 }
             }
         }
 
-        protected abstract Task ExecuteSchedule(CancellationToken stoppingToken);       
+        protected abstract Task ExecuteScheduleAsync(CancellationToken stoppingToken);       
     }
 
     public interface IScheduleConfig<T>

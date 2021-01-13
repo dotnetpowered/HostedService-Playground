@@ -7,15 +7,14 @@ namespace workertest.Demos
 {
     public class MyPollingService : PollingService<MyPollingService>
     {
-        ILogger<MyPollingService> _logger;
-
         public MyPollingService(IPollingConfig<MyPollingService> pollingConfig,
-            ILogger<MyPollingService> logger) : base(pollingConfig) => _logger = logger;
+            ILogger<MyPollingService> logger) : base(pollingConfig, logger) { }
 
 
-        protected override Task<bool> ExecutePollerAsync(CancellationToken stoppingToken)
+        protected override async Task<bool> ExecutePollerAsync(CancellationToken stoppingToken)
         {
-            throw new NotImplementedException();
+            Logger.LogInformation($"{DateTime.Now:hh:mm:ss} MyPollingService is working.");
+            return true;
         }
     }
 }
